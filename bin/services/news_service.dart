@@ -3,12 +3,6 @@ import 'generic_service.dart';
 
 class NewsService implements GenericService<NewsModel>{
   @override
-  bool delete(NewsModel value) {
-    // TODO: implement delete
-    throw UnimplementedError();
-  }
-
-  @override
   List<NewsModel> findAll() {
     // TODO: implement findAll
     throw UnimplementedError();
@@ -23,6 +17,12 @@ class NewsService implements GenericService<NewsModel>{
   @override
   bool save(NewsModel value) {
     // TODO: implement save
+    throw UnimplementedError();
+  }
+  
+  @override
+  bool delete(int id) {
+    // TODO: implement delete
     throw UnimplementedError();
   }
 }
