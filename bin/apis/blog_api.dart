@@ -2,7 +2,6 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 import '../services/generic_service.dart';
-import '../services/news_service.dart';
 
 class BlogApi {
   final GenericService _service;
