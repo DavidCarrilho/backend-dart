@@ -3,7 +3,7 @@ import 'dart:convert';
 
 
 class NewsModel {
-  final int id;
+  final int? id;
   final String title;
   final String description;
   final String image;
@@ -50,12 +50,12 @@ class NewsModel {
 
   factory NewsModel.fromMap(Map<String, dynamic> map) {
     return NewsModel(
-      map['id'] as int,
+      map['id'] ?? '',
       map['title'] as String,
       map['description'] as String,
       map['image'] as String,
-      DateTime.fromMillisecondsSinceEpoch(map['datePublish'] as int),
-      map['dateUpdate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['dateUpdate'] as int) : null,
+      DateTime.fromMillisecondsSinceEpoch(map['datePublish']),
+      map['dateUpdate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['dateUpdate']) : null,
     );
   }
 
