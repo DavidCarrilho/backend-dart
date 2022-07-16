@@ -25,6 +25,7 @@ void main() async {
     .addMiddleware(logRequests())
     .addMiddleware(MiddlewareIntercption().middleware)
     .addMiddleware(SecurityServiceImpl().authorization)
+    .addMiddleware(SecurityServiceImpl().verifyJwt)
     .addHandler(cascadeHandler);
 
 

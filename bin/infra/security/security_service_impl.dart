@@ -38,7 +38,7 @@ class SecurityServiceImpl implements SecurityService<JWT> {
 
   @override
   Middleware get authorization {
-    return (Handler handler) {
+     return (Handler handler) {
       return (Request req) async {
         String? authorizationHeader = req.headers['Authorization'];
         JWT? jwt;
@@ -55,6 +55,12 @@ class SecurityServiceImpl implements SecurityService<JWT> {
   }
 
   @override
-  // TODO: implement verifyJwt
-  Middleware get verifyJwt => throw UnimplementedError();
+  Middleware get verifyJwt => createMiddleware(
+        requestHandler: (Request req) {
+          if (req.context['jwt'] == null) {
+            return Response.forbidden('Not Authorized');
+          }
+          return null;
+        },
+      );
 }
