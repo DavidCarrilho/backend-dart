@@ -1,6 +1,4 @@
 abstract class SecurityService<T> {
   Future<String> generateJWT(String userID);
-  T? validateJWT(String token) {
-
-  }
+  Future<T?> validateJWT(String token);
 }
