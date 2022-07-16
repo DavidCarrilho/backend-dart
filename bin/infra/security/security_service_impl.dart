@@ -5,6 +5,8 @@ import '../../utils/custom_env.dart';
 import 'security_service.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 
+import 'validate/api_router_validate.dart';
+
 class SecurityServiceImpl implements SecurityService<JWT> {
   @override
   Future<String> generateJWT(String userID) async {
@@ -38,7 +40,7 @@ class SecurityServiceImpl implements SecurityService<JWT> {
 
   @override
   Middleware get authorization {
-     return (Handler handler) {
+    return (Handler handler) {
       return (Request req) async {
         String? authorizationHeader = req.headers['Authorization'];
         JWT? jwt;
@@ -57,6 +59,12 @@ class SecurityServiceImpl implements SecurityService<JWT> {
   @override
   Middleware get verifyJwt => createMiddleware(
         requestHandler: (Request req) {
+          var apiSecurity = ApiRouterValidate()
+            .add('login')
+            .add('xpto')
+            .add('register');
+
+          if (apiSecurity.isPublic(req.url.path)) return null;
           if (req.context['jwt'] == null) {
             return Response.forbidden('Not Authorized');
           }
