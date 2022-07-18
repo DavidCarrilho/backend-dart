@@ -18,18 +18,21 @@ void main() async {
   // usar o kdebug
   CustomEnv.fromFile('.env-dev');
 
-  SecurityService _securityService = SecurityServiceImpl();
+  SecurityService securityService = SecurityServiceImpl();
 
   var cascadeHandler = Cascade()
-      .add(LoginApi(_securityService).handler)
-      .add(BlogApi(NewsService()).handler)
+      .add(LoginApi(securityService).getHandler())
+      .add(BlogApi(NewsService()).getHandler(
+        middilewares: [
+          securityService.authorization,
+          securityService.verifyJwt
+        ]
+      ))
       .handler;
 
   var handler = Pipeline()
       .addMiddleware(logRequests())
       .addMiddleware(MiddlewareIntercption().middleware)
-      .addMiddleware(_securityService.authorization)
-      .addMiddleware(_securityService.verifyJwt)
       .addHandler(cascadeHandler);
 
   await CustomServer().initialize(
