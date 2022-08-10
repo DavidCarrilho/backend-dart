@@ -10,7 +10,7 @@ abstract class Api {
     middilewares ??= [];
     var pipeline = Pipeline();
 
-    middilewares.forEach((m) => pipeline = pipeline.addMiddleware(m));
+    middilewares.forEach((mid) => pipeline = pipeline.addMiddleware(mid));
 
     return pipeline.addHandler(router);
   }
