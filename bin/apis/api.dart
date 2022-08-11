@@ -1,5 +1,8 @@
 import 'package:shelf/shelf.dart';
 
+import '../infra/dependency_injector/dependency_injector.dart';
+import '../infra/security/security_service.dart';
+
 abstract class Api {
   Handler getHandler({List<Middleware>? middilewares});
 
@@ -7,6 +10,8 @@ abstract class Api {
     required Handler router,
     List<Middleware>? middilewares,
   }) {
+    final _di = DependencyInjector();
+    var _securityService = _di.get<SecurityService>();
     middilewares ??= [];
     var pipeline = Pipeline();
 
