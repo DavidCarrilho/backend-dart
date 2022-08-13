@@ -10,7 +10,7 @@ class LoginApi extends Api {
   LoginApi(this._securityService);
 
   @override
-  Handler getHandler({List<Middleware>? middilewares}) {
+  Handler getHandler({List<Middleware>? middilewares, bool isSecurity = false}) {
     Router router = Router();
     router.post('/login', (Request req) async {
       var token = await _securityService.generateJWT('1');

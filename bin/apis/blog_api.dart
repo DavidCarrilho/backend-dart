@@ -13,7 +13,7 @@ class BlogApi extends Api {
   BlogApi(this._service);
 
   @override
-  Handler getHandler({List<Middleware>? middilewares}) {
+  Handler getHandler({List<Middleware>? middilewares, bool isSecurity = false}) {
     Router router = Router();
     // Listagem
     router.get('/blog/noticias', (Request req) {
@@ -42,6 +42,7 @@ class BlogApi extends Api {
     });
     return createHandler(
       router: router,
+      isSecutiry: isSecurity,
       middilewares: middilewares,
     );
   }
