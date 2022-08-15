@@ -1,14 +1,10 @@
 import 'package:shelf/shelf.dart';
-import 'package:shelf/shelf_io.dart' as shelf_io;
 
 import 'apis/blog_api.dart';
 import 'apis/login_api.dart';
 import 'infra/custom_server.dart';
-import 'infra/dependency_injector/dependency_injector.dart';
+import 'infra/dependency_injector/injects.dart';
 import 'infra/middleware_interception.dart';
-import 'infra/security/security_service.dart';
-import 'infra/security/security_service_impl.dart';
-import 'services/news_service.dart';
 import 'utils/custom_env.dart';
 
 void main() async {
@@ -19,13 +15,11 @@ void main() async {
   // usar o kdebug
   CustomEnv.fromFile('.env-dev');
 
-  final _di = DependencyInjector();
-  _di.register<SecurityService>(() => SecurityServiceImpl(), isSingleton: true);
-  var _securityService = _di.get<SecurityService>();
+  final _di = Injects.initializer();
 
   var cascadeHandler = Cascade()
-      .add(LoginApi(_securityService).getHandler())
-      .add(BlogApi(NewsService()).getHandler())
+      .add(_di.get<LoginApi>().getHandler())
+      .add(_di.get<BlogApi>().getHandler(isSecurity: true))
       .handler;
 
   var handler = Pipeline()
