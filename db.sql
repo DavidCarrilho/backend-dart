@@ -1,0 +1,29 @@
+CREATE SCHEMA IF NOT EXISTS `dart` DEFAULT CHARACTER SET utf8;
+USE `dart`;
+
+CREATE TABLE IF NOT EXISTS `dart`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `is_active` TINYINT NULL DEFAULT 1,
+  `dt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `dt_update` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+CREATE TABLE IF NOT EXISTS `dart`.`news` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `description` LONGTEXT NOT NULL,
+  `dt_create` datetime DEFAULT CURRENT_TIMESTAMP,
+  `dt_update` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `id_user` INT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `id_user`
+    FOREIGN KEY (`id_user`)
+    REFERENCES `dart`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
