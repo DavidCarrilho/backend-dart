@@ -1,3 +1,4 @@
+import 'package:mysql1/mysql1.dart';
 import 'package:shelf/shelf.dart';
 
 import 'apis/blog_api.dart';
@@ -14,6 +15,16 @@ void main() async {
 
   // usar o kdebug
   CustomEnv.fromFile('.env-dev');
+
+  var connection = await MySqlConnection.connect(ConnectionSettings(
+    host: await CustomEnv.get<String>(key: 'DB_HOST'),
+    port: await CustomEnv.get<int>(key: 'DB_PORT'),
+    user: await CustomEnv.get<String>(key: 'DB_USER'),
+    password: await CustomEnv.get<String>(key: 'DB_PASSWORD'),
+    db: await CustomEnv.get<String>(key: 'DB_SCHEMA'),
+  ));
+  var result = await connection.query('SELECT name, email FROM users;');
+  print(result.toString());
 
   final _di = Injects.initializer();
 
