@@ -6,7 +6,6 @@ class MiddlewareIntercption {
       return res.change(
         headers: {
           'content-type': 'application/json',
-          'xpto': '123'
         },
       );
     });

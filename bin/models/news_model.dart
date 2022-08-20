@@ -1,7 +1,4 @@
 import 'dart:convert';
-
-
-
 class NewsModel {
   final int? id;
   final String title;
