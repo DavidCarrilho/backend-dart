@@ -8,7 +8,7 @@ import '../security/security_service_impl.dart';
 import 'dependency_injector.dart';
 
 class Injects {
-  static DependencyInjector initializer() {
+  static DependencyInjector initialize() {
     final di = DependencyInjector();
     di.register<SecurityService>(() => SecurityServiceImpl());
     di.register<LoginApi>(() => LoginApi(di()));
