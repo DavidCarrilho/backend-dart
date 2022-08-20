@@ -1,32 +1,22 @@
-import 'package:mysql1/mysql1.dart';
 import 'package:shelf/shelf.dart';
 
 import 'apis/blog_api.dart';
 import 'apis/login_api.dart';
 import 'infra/custom_server.dart';
+import 'infra/database/mysql_db_configuration.dart';
 import 'infra/dependency_injector/injects.dart';
 import 'infra/middleware_interception.dart';
 import 'utils/custom_env.dart';
 
 void main() async {
-  // var _server = CustomServerHandler();
-  // final server = await shelf_io.serve(_server.handler, "localhost", 8080);
-  // print('Nosso servidor foi iniciado http:localhost:8080');
-
-  // usar o kdebug
   CustomEnv.fromFile('.env-dev');
+  
+  var coneexao = await MySqlDBConfiguration().connection;
 
-  var connection = await MySqlConnection.connect(ConnectionSettings(
-    host: await CustomEnv.get<String>(key: 'DB_HOST'),
-    port: await CustomEnv.get<int>(key: 'DB_PORT'),
-    user: await CustomEnv.get<String>(key: 'DB_USER'),
-    password: await CustomEnv.get<String>(key: 'DB_PASSWORD'),
-    db: await CustomEnv.get<String>(key: 'DB_SCHEMA'),
-  ));
-  var result = await connection.query('SELECT name, email FROM users;');
+  var result = await coneexao.query('SELECT * FROM users;');
   print(result.toString());
 
-  final _di = Injects.initializer();
+  final _di = Injects.initialize();
 
   var cascadeHandler = Cascade()
       .add(_di.get<LoginApi>().getHandler())
